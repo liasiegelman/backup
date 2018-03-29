@@ -1,13 +1,21 @@
+# -*- mode: sh -*-
+
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 
 brew install wget
 brew install emacs --with-cocoa
-brew install tmux
+brew install tmux reattach-to-user-namespace
 sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 
-wget https://bootstrap.pypa.io/get-pip.py
-sudo python get-pip.py
-rm -rf get-pip.py
-
+if [ ! -f "/usr/local/bin/pip" ]; then
+    wget https://bootstrap.pypa.io/get-pip.py
+    sudo python get-pip.py
+    rm -rf get-pip.py
+fi
 sudo -H pip install virtualenvwrapper
+
+if [ ! -d "$HOME/Documents/setup/emacs" ]; then
+    git clone git@github.com:barutm/emacs.git ~/Documents/setup/emacs
+fi
+cp ~/Documents/setup/emacs/tmux.conf ~/.tmux.conf
