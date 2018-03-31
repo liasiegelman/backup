@@ -19,3 +19,8 @@ if [ ! -d "$HOME/Documents/setup/emacs" ]; then
     git clone git@github.com:barutm/emacs.git ~/Documents/setup/emacs
 fi
 cp ~/Documents/setup/emacs/tmux.conf ~/.tmux.conf
+
+if [ ! -f "$HOME/Library/LaunchAgents/gnu.emacs.daemon.plist" ]; then
+    cp ~/Documents/setup/backup/gnu.emacs.daemon.plist ~/Library/LaunchAgents/gnu.emacs.daemon.plist
+    launchctl load -w ~/Library/LaunchAgents/gnu.emacs.daemon.plist
+fi
