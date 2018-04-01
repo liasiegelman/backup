@@ -24,3 +24,21 @@ if [ ! -f "$HOME/Library/LaunchAgents/gnu.emacs.daemon.plist" ]; then
     cp ~/Documents/setup/backup/gnu.emacs.daemon.plist ~/Library/LaunchAgents/gnu.emacs.daemon.plist
     launchctl load -w ~/Library/LaunchAgents/gnu.emacs.daemon.plist
 fi
+
+# pyenv virtualenv
+brew install pyenv-virtualenv
+brew upgrade pyenv-virtualenv
+
+# python install
+GC_PYTHON_VERSION=3.6.2
+GC_PYTHON_DIR=$HOME/.pyenv/versions/${GC_PYTHON_VERSION}
+if [ ! -d "$GC_PYTHON_DIR" ]; then
+    pyenv install $GC_PYTHON_VERSION
+fi
+
+# jpl_caltech env
+JPL_CALTECH_SOURCE_NAME=jpl_caltech
+JPL_CALTECH_SOURCE_DIR=$HOME_DIR/.pyenv/versions/$JPL_CALTECH_SOURCE_NAME
+if [ ! -d "$JPL_CALTECH_SOURCE_DIR" ]; then
+    pyenv virtualenv $GC_PYTHON_VERSION $JPL_CALTECH_SOURCE_NAME
+fi
