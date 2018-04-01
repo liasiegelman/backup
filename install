@@ -25,6 +25,7 @@ if [ ! -f "$HOME/Library/LaunchAgents/gnu.emacs.daemon.plist" ]; then
     launchctl load -w ~/Library/LaunchAgents/gnu.emacs.daemon.plist
 fi
 
+# bidon
 # pyenv virtualenv
 brew install pyenv-virtualenv
 brew upgrade pyenv-virtualenv
