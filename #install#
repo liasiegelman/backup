@@ -1,0 +1,44 @@
+# -*- mode: sh -*-
+
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew update
+
+brew install wget
+brew install emacs --with-cocoa
+brew install tmux reattach-to-user-namespace
+sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+
+if [ ! -f "/usr/local/bin/pip" ]; then
+    wget https://bootstrap.pypa.io/get-pip.py
+    sudo python get-pip.py
+    rm -rf get-pip.py
+fi
+sudo -H pip install virtualenvwrapper
+
+if [ ! -d "$HOME/Documents/setup/emacs" ]; then
+    git clone git@github.com:barutm/emacs.git ~/Documents/setup/emacs
+fi
+cp ~/Documents/setup/emacs/tmux.conf ~/.tmux.conf
+
+if [ ! -f "$HOME/Library/LaunchAgents/gnu.emacs.daemon.plist" ]; then
+    cp ~/Documents/setup/backup/gnu.emacs.daemon.plist ~/Library/LaunchAgents/gnu.emacs.daemon.plist
+    launchctl load -w ~/Library/LaunchAgents/gnu.emacs.daemon.plist
+fi
+
+# pyenv virtualenv
+brew install pyenv-virtualenv
+brew upgrade pyenv-virtualenv
+
+# python install
+GC_PYTHON_VERSION=3.6.2
+GC_PYTHON_DIR=$HOME/.pyenv/versions/${GC_PYTHON_VERSION}
+if [ ! -d "$GC_PYTHON_DIR" ]; then
+    pyenv install $GC_PYTHON_VERSION
+fi
+
+# jpl_caltech env
+JPL_CALTECH_SOURCE_NAME=jpl_caltech
+JPL_CALTECH_SOURCE_DIR=$HOME_DIR/.pyenv/versions/$JPL_CALTECH_SOURCE_NAME
+if [ ! -d "$JPL_CALTECH_SOURCE_DIR" ]; then
+    pyenv virtualenv $GC_PYTHON_VERSION $JPL_CALTECH_SOURCE_NAME
+fi
